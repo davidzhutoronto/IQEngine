@@ -21,7 +21,14 @@ export const FetchMeta = (connection) => async (dispatch) => {
       console.error('container name was not filled out for some reason');
     }
     // Get the blob client.  TODO: REPLACE THIS WITH THE HANDLE WE ALREADY FOUND
-    const blobServiceClient = new BlobServiceClient(`https://${accountName}.${domainName}?${sasToken}`);
+    let blobServiceClient;
+    try {
+      blobServiceClient = new BlobServiceClient(`https://${accountName}.${domainName}?${sasToken}`);
+    } catch (e) {
+      console.error(e);
+      console.log('Trying azurite instead');
+      blobServiceClient = new BlobServiceClient(`http://${domainName}/${accountName}/${sasToken}`);
+    }
     const containerClient = blobServiceClient.getContainerClient(containerName);
     const blobMetaClient = containerClient.getBlobClient(blobName.replaceAll('(slash)', '/'));
     const downloadBlockBlobResponse = await blobMetaClient.download();

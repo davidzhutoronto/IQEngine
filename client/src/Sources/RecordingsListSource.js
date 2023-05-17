@@ -9,7 +9,6 @@ import {
 } from '../Store/Actions/RecordingsListActions';
 import parseMeta from '../Utils/parseMeta';
 import { BlobServiceClient } from '@azure/storage-blob';
-import { DefaultAzureCredential } from '@azure/identity';
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
@@ -37,13 +36,12 @@ export const FetchRecordingsList = (connection) => async (dispatch) => {
   let blobServiceClient;
   try {
     blobServiceClient = new BlobServiceClient(`https://${accountName}.${domainName}?${sasToken}`);
-    baseUrl = `https://${domainName}/${containerName}/`;
+    baseUrl = `https://${domainName}/${containerName}/`; // used for thumbnail and download links, so not 100% needed
   } catch (e) {
     console.error(e);
     console.log('Trying azurite instead');
-    const defaultAzureCredential = new DefaultAzureCredential();
-    blobServiceClient = new BlobServiceClient(`https://${domainName}`, defaultAzureCredential);
-    console.log('GOT HERE');
+    blobServiceClient = new BlobServiceClient(`http://${domainName}/${accountName}/${sasToken}`);
+    baseUrl = null;
   }
   const containerClient = blobServiceClient.getContainerClient(containerName);
 
@@ -52,6 +50,7 @@ export const FetchRecordingsList = (connection) => async (dispatch) => {
   try {
     const blobNames = [];
     for await (const i of containerClient.listBlobsFlat()) blobNames.push(i.name);
+    console.log(blobNames);
 
     for (let blobName of blobNames) {
       // only process meta-data files, and only ones that have a data file to go with them
