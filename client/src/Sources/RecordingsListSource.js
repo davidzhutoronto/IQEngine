@@ -36,7 +36,7 @@ export const FetchRecordingsList = (connection) => async (dispatch) => {
   let blobServiceClient;
   try {
     blobServiceClient = new BlobServiceClient(`https://${accountName}.${domainName}?${sasToken}`);
-    baseUrl = `https://${domainName}/${containerName}/`; // used for thumbnail and download links, so not 100% needed
+    baseUrl = `https://${accountName}.${domainName}/${containerName}/`; // used for thumbnail and download links, so not 100% needed
   } catch (e) {
     console.error(e);
     console.log('Trying azurite instead');

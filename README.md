@@ -57,15 +57,15 @@ The build step will take 3-5 minutes.  After running it you should be able to ac
 npm install -g azurite
 azurite -v
 (make sure it's 3.x.x)
-azurite --location /home/marc/azurite_server_folder/ --debug /tmp/debug.log
+azurite -L --location /home/marc/azurite_server_folder/ --debug /tmp/debug.log
 ```
 
 In a locally running IQEngine (run with http) connect to it with
 
-- Storage Account Name: devstoreaccount1
-- Container Name: testdir
-- Domain Name: 127.0.0.1:10000
-- SAS Token for Container: Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==
+* Storage Account Name: devstoreaccount1
+* Container Name: testdir
+* Domain Name: 127.0.0.1:10000
+* SAS Token for Container: Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==
 
 (note the above SAS is not an actual secret, it's the default for Azurite and is published elsewhere)
 
