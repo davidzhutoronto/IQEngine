@@ -13,11 +13,11 @@ export const getIQDataSlice = (
   enabled = true
 ) => {
   if (!meta) {
-    return useQuery(['invalidQuery'], () => null);
+    return useQuery<IQDataSlice>(['invalidQuery'], () => null);
   }
   const { type, account, container, file_path } = meta.getOrigin();
   const client = IQDataClientFactory(type);
-  return useQuery(
+  return useQuery<IQDataSlice>(
     [
       'datasource',
       type,
@@ -33,6 +33,7 @@ export const getIQDataSlice = (
     () => client.getIQDataSlice(meta, index, tileSize),
     {
       enabled: enabled && !!meta,
+      staleTime: Infinity,
     }
   );
 };

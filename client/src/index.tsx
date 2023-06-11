@@ -30,6 +30,8 @@ import RecordingsBrowser from './Components/RecordingsBrowser/RecordingsBrowser'
 import SpectrogramPage from './Components/Spectrogram/SpectrogramPage';
 import { CLIENT_TYPE_BLOB } from './api/Models';
 
+import { SpetrogramVirtual } from './pages/Spectrogram/index';
+
 // @ts-ignore
 const queryClient = new QueryClient();
 queryClient.setQueryDefaults(['config'], { staleTime: 1000 * 60 * 60 * 24 });
@@ -59,7 +61,7 @@ root.render(
               }
             />
             <Route path="/" element={<RepoBrowser />} />
-            <Route path="recordings/" element={<RecordingsBrowser />} />
+            <Route path="newspectrogram/:type/:account/:container/:filePath" element={<SpetrogramVirtual />} />
             <Route path="recordings/:type/:account/:container/:sasToken?" element={<RecordingsBrowser />} />
             <Route path="spectrogram/:type/:account/:container/:filePath/:sasToken?" element={<SpectrogramPage />} />
           </Route>
